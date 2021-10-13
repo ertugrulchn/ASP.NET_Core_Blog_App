@@ -6,6 +6,7 @@
 }
 @if (Model.ResultStatus == ResultStatus.Success)
 {
+    <div id="modalPlaceHolder" aria-hidden="true" data-target="#modal" data-toggle="modal"></div>
     <div class="card mb-4 mt-2">
         <div class="card-header">
             <i class="fas fa-table mr-1"></i>
@@ -84,9 +85,11 @@
                 buttons: [
                     {
                         text: 'Ekle',
+                        attr: {
+                            id: "btnAdd",
+                        },
                         className: 'btn btn-success',
                         action: function (e, dt, node, config) {
-                            alert('Ekle Butonuna Basıldı');
                         }
                     },
                     {
@@ -300,6 +303,17 @@
                         }
                     }
                 }
+            });
+            @* Data Tables End Here *@
+            $(function() {
+                const url = '@Url.Action("Add", "Category")';
+                const placeHolderDiv = $('#modalPlaceHolder');
+                $('#btnAdd').click(function() {
+                    $.get(url).done(function(data) {
+                        placeHolderDiv.html(data);
+                        placeHolderDiv.find(".modal").modal('show');
+                    });
+                });
             });
         });
     </script>
